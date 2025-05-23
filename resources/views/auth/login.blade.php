@@ -20,7 +20,8 @@
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                     Sign in to your account
                 </h1>
-                <form id="loginForm" class="space-y-4 md:space-y-6" action="#">
+                <form id="loginForm" class="space-y-4 md:space-y-6" action="{{ route('user.login') }}" method="POST">
+                    @csrf
                     <div>
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
                             email</label>
@@ -64,27 +65,7 @@
         </div>
     </section>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const error = document.getElementById('loginError');
-
-            if (!email || !password) {
-                error.textContent = 'Please fill in both email and password.';
-                error.classList.remove('hidden');
-                return;
-            }
-
-            // Simulasi login berhasil
-            error.classList.add('hidden');
-            alert('Login successful!');
-
-            // Tambahkan redirect atau logic autentikasi sesungguhnya di sini
-        });
-    </script>
+    
 </body>
 
 </html>
