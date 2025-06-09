@@ -46,7 +46,7 @@ class ExamController extends Controller
         $questions = Question::where('exam_id', $exam->id)->get();
         $soal = Question::where('exam_id', $exam->id)->first();
 
-        return view('dashboard.ujian.soal', compact('exam', 'questions', 'soal'));
+        return view('dashboard.ujian.soal', compact('exam', 'questions', 'soal', ));
     }
     public function showEditSoal($id){
          // Ambil ujian berdasarkan ID
@@ -57,31 +57,32 @@ class ExamController extends Controller
         return view('dashboard.ujian.addSoal', compact('exam', 'questions', 'soal'));
     }
     
-    public function editSoal(Request $request, $id)
+    public function addSoal(Request $request, $id)
     {
-        // Ambil ujian berdasarkan ID
+        // Ambil ujian
         $exam = Exams::findOrFail($id);
 
-        // Buat soal baru
+        // Buat objek soal baru
         $question = new Question();
         $question->exam_id = $exam->id;
-        $question->question_text = $request->question_text;
         $question->teacher_id = Auth::id();
-        // Ambil semua pilihan jawaban dari request
-        $choices = $request->input('choices', []);
+        $question->question_text = $request->question_text;
 
-        $question->option_a = $choices[0] ?? null;
-        $question->option_b = $choices[1] ?? null;
-        $question->option_c = $choices[2] ?? null;
-        $question->option_d = $choices[3] ?? null;
-        $question->option_e = $choices[4] ?? null;
+        // Upload gambar jika ada
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('soal_images', 'public');
+            $question->image = $imagePath;
+        }
 
-        // Ambil jawaban benar
-        $index = $request->input('correct_choice');
-        $correctAnswers = ['A', 'B', 'C', 'D', 'E'];
-        $question->correct_answer = $correctAnswers[$index] ?? null;
+        // Set pilihan jawaban dan jawaban benar
+        $question->option_a = $request->option_a;
+        $question->option_b = $request->option_b;
+        $question->option_c = $request->option_c;
+        $question->option_d = $request->option_d;
+        $question->option_e = $request->option_e;
+        $question->correct_answer = $request->correct_answer;
 
-        // Simpan ke database
+        // Simpan ke DB
         $question->save();
 
         return redirect()->back()->with('success', 'Soal berhasil ditambahkan!');

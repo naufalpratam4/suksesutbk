@@ -8,16 +8,17 @@
             <div id="questionsContainer" class="space-y-8 w-full lg:w-3/4">
                 <div class="question-item border border-dashed border-gray-400 p-6 rounded-lg bg-gray-50 shadow-sm">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold text-gray-800">{{$soal->question_text}}</h3>
+                        <h3 class="text-lg font-semibold text-gray-800">{{$exam->title}}
+                        </h3>
                         <div>
                             <button type="button"
                                 class="text-red-600 hover:text-red-700 font-medium py-2 px-3 rounded-md hover:bg-red-100 transition">
                                 <i class="fas fa-trash-alt mr-1"></i> Hapus Soal
                             </button>
-                            <a href="{{ route('showEditSoal', $soal->exam_id) }}">
+                            <a href="{{ route('showAddSoal', $exam) }}">
                                 <button type="button"
-                                    class="text-yellow-600 hover:text-yellow-700 font-medium py-2 px-3 rounded-md hover:bg-yellow-100 transition">
-                                    <i class="fas fa-pencil-alt mr-1"></i> Edit Soal
+                                    class="text-green-600 hover:text-green-700 font-medium py-2 px-3 rounded-md hover:bg-green-100 transition">
+                                    <i class="fas fa-pencil-alt mr-1"></i> Tambah Soal
                                 </button>
                             </a>
                         </div>
@@ -31,51 +32,26 @@
                             value="{{ $soal->question_text ?? '' }}"
                             class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             placeholder="Masukkan teks soal di sini..."></input>
-                        <div class="flex justify-center">atau</div>
-                        <label for="imageUpload" class="block text-sm font-medium text-gray-700  mb-1">Pilih
-                            gambar:</label>
-                        <input type="file" id="imageUpload" name="questions[0][image]" accept="image/*"
-                            class="block w-full border border-1 rounded-lg text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer" />
+                     
+                        <label for="imageUpload" class="block text-sm font-medium text-gray-700 pt-2 mb-1">Ini Gambar
+                            :</label>
+                        <img src="https://img.freepik.com/free-vector/blue-curve-background_53876-113112.jpg?semt=ais_items_boosted&w=740"
+                            alt="">
+                        <label for="questionText1" class="block text-sm font-medium text-gray-700 mb-1">
+                            deskripsi <span class="text-red-500">*</span>
+                        </label>
+                        <div>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima tenetur cum eum. Quibusdam
+                            dolores quam dolor id. Veritatis et mollitia eligendi soluta, asperiores molestiae suscipit
+                            ratione repudiandae, harum eius illo!
+                        </div>
+
+                           <label for="questionText1" class="block text-sm font-medium text-gray-700 mb-1">
+                            Durasi : <span>{{$exam->duration}} menit</span>
+                        </label>
                     </div>
 
-                    <!-- Pilihan Jawaban -->
-                    <div class="choices-container space-y-3">
-                        <h4 class="text-md font-semibold text-gray-700 mb-2">Pilihan Jawaban:</h4>
-                        @php
-                            $labels = ['A', 'B', 'C', 'D', 'E'];
-                        @endphp
-                        @php
-                            $options = [
-                                'A' => $soal->option_a ?? '',
-                                'B' => $soal->option_b ?? '',
-                                'C' => $soal->option_c ?? '',
-                                'D' => $soal->option_d ?? '',
-                                'E' => $soal->option_e ?? '',
-                            ];
-                        @endphp
-
-                        @foreach ($labels as $index => $label)
-                            <div
-                                class="choice-item flex items-center space-x-3 p-3 border border-gray-200 rounded-md bg-white">
-                                <input type="radio" name="questions[0][correct_choice]" value="{{ $index }}"
-                                    class="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded cursor-pointer"
-                                    title="Tandai sebagai jawaban benar" @checked($soal?->correct_answer === $label)>
-
-                                <span class="font-semibold text-gray-700">{{ $label }}.</span>
-
-                                <input type="text" name="questions[0][choices][{{ $index }}][text]" required
-                                    value="{{ $options[$label] ?? '' }}"
-                                    class="flex-grow px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    placeholder="Teks Pilihan {{ $label }}">
-
-                                <button type="button"
-                                    class="text-red-500 hover:text-red-600 p-1 rounded-full hover:bg-red-50 transition"
-                                    title="Hapus Pilihan Ini">
-                                    <i class="fas fa-times-circle fa-lg"></i>
-                                </button>
-                            </div>
-                        @endforeach
-                    </div>
+                    
                 </div>
             </div>
 

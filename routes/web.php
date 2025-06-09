@@ -39,7 +39,7 @@ Route::get('/soal/buat-soal', function(){
     return view('dashboard.ujian.soal');
 });
 Route::get('/soal/{id}', [ExamController::class, 'showSoal']);
-Route::get('/edit-soal/{id}', [ExamController::class, 'showEditSoal'])->name('showEditSoal');
+Route::get('/soal/tambah-soal/{id}', [ExamController::class, 'showEditSoal'])->name('showAddSoal');
 Route::post('/soal/buat-soal', [ExamController::class, 'addUjian'])->name('addUjian');
-Route::post('/soal/{id}/edit-soal', [ExamController::class, 'editSoal'])->name('editSoal');
+Route::post('/soal/{id}/edit-soal', [ExamController::class, 'addSoal'])->name('addSoal');
 

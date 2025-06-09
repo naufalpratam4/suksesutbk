@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('option_e')->nullable();
             $table->char('correct_answer', 1)->nullable(); // Assuming 'A', 'B', 'C', 'D', 'E'
             $table->float('score')->default(1);
+            $table->string('gambar')->nullable();
             $table->timestamp('created_at')->useCurrent();
             // The original SQL doesn't have updated_at for questions,
             // but Laravel's default $table->timestamps() includes it.
