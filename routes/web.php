@@ -40,6 +40,8 @@ Route::get('/soal/buat-soal', function(){
 });
 Route::get('/soal/{id}', [ExamController::class, 'showSoal']);
 Route::get('/soal/tambah-soal/{id}', [ExamController::class, 'showEditSoal'])->name('showAddSoal');
+Route::get('/soal/seluruh-soal/{id}', [ExamController::class, 'allSoal'])->name('allSoal');
+Route::get('/soal/detail-soal/{id}', [ExamController::class, 'detailSoal'])->name('detailSoal');
 Route::post('/soal/buat-soal', [ExamController::class, 'addUjian'])->name('addUjian');
 Route::post('/soal/{id}/edit-soal', [ExamController::class, 'addSoal'])->name('addSoal');
 

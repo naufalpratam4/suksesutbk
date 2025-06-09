@@ -1,29 +1,20 @@
 @extends('template.dashboard')
 @section('content')
     <fieldset class="border border-gray-300 p-6 rounded-lg">
-        <legend class="text-xl font-semibold text-gray-700 px-2">Buat Soal dari Mata Pelajaran {{ $exam->title }} </legend>
+        <legend class="text-xl font-semibold text-gray-700 px-2">Buat Soal dari Mata Pelajaran </legend>
         {{-- Kotak nomor soal --}}
-        <form action="{{ route('addSoal', $exam->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="flex flex-col lg:flex-row gap-6">
                 <!-- Bagian Soal -->
                 <div class="space-y-8 w-full lg:w-3/4">
                     <div class="border border-dashed border-gray-400 p-6 rounded-lg bg-gray-50 shadow-sm">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-semibold text-gray-800">Tambah Soal</h3>
+                            <h3 class="text-lg font-semibold text-gray-800">{{ $detail->question_text }} </h3>
                         </div>
 
                         <!-- Input Teks Soal -->
                         <div class="mb-4">
-                            <label for="question_text" class="block text-sm font-medium text-gray-700 mb-1">
-                                Teks Soal <span class="text-red-500">*</span>
-                            </label>
-                            <textarea name="question_text" id="question_text" rows="3"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                placeholder="Masukkan teks soal..."></textarea>
-
-                            <div class="flex justify-center py-2 text-sm text-gray-500 italic">atau</div>
-
                             <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Unggah
                                 Gambar:</label>
                             <input type="file" name="image" id="image" accept="image/*"
@@ -33,29 +24,29 @@
                         <!-- Pilihan Jawaban -->
                         <div class="space-y-3">
                             <h4 class="text-md font-semibold text-gray-700 mb-2">Pilihan Jawaban:</h4>
-                            @php
-                                $labels = ['A', 'B', 'C', 'D', 'E'];
-                            @endphp
+                            <div class="mb-4">
 
-                            @foreach ($labels as $label)
-                                <div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-md bg-white">
-                                    <input type="radio" name="correct_answer" value="{{ $label }}"
-                                        class="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded cursor-pointer"
-                                        title="Tandai sebagai jawaban benar">
+                                <p class="mb-2 text-lg font-bold">{{ $detail->question_text }}</p>
 
-                                    <span class="font-semibold text-gray-700">{{ $label }}.</span>
+                                @if ($detail->image)
+                                    <label class="block text-sm font-medium text-gray-700 pt-2 mb-1">Gambar:</label>
+                                    <img src="{{ asset('storage/' . $detail->image) }}" alt="Gambar soal" class="w-1/2 mb-4">
+                                @endif
 
-                                    <input type="text" name="option_{{ strtolower($label) }}" required
-                                        class="flex-grow px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        placeholder="Teks Pilihan {{ $label }}">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Pilihan Jawaban:</label>
+                                <ul class="list-disc pl-5 text-sm text-gray-800 space-y-1">
+                                    <li>a. {{ $detail->option_a }}</li>
+                                    <li>b. {{ $detail->option_b }}</li>
+                                    <li>c. {{ $detail->option_c }}</li>
+                                    <li>d. {{ $detail->option_d }}</li>
+                                    <li>e. {{ $detail->option_e }}</li>
+                                </ul>
 
-                                    <button type="button"
-                                        class="text-red-500 hover:text-red-600 p-1 rounded-full hover:bg-red-50 transition"
-                                        title="Hapus Pilihan Ini">
-                                        <i class="fas fa-times-circle fa-lg"></i>
-                                    </button>
-                                </div>
-                            @endforeach
+                                <label class="block text-sm font-medium text-gray-700 mt-3 mb-1">
+                                    Jawaban Benar:
+                                </label>
+                                <p class="text-green-700 font-semibold">{{ strtoupper($detail->correct_answer) }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>

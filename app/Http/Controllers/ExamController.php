@@ -48,13 +48,34 @@ class ExamController extends Controller
 
         return view('dashboard.ujian.soal', compact('exam', 'questions', 'soal', ));
     }
+    public function allSoal($id){
+        $exam = Exams::findOrFail($id);
+        $navigation = Question::where('exam_id', $exam->id)->get();
+        $soal = Question::where('exam_id', $exam->id)->first();
+        $seluruhSoal = Question::all();
+        return view('dashboard.ujian.allSoal', compact('exam', 'navigation', 'soal', 'seluruhSoal' ));
+    }
+    public function detailSoal($id)
+    {
+        // Ambil satu soal berdasarkan ID
+        $detail = Question::findOrFail($id);
+
+        // Ambil data ujian dari soal tersebut
+        $exam = Exams::findOrFail($detail->exam_id);
+
+        // Ambil semua soal dari ujian yang sama
+        $questions = Question::where('exam_id', $exam->id)->get();
+        $navigation = Question::where('exam_id', $exam->id)->get();
+        return view('dashboard.ujian.detailSoal', compact('detail', 'questions', 'exam', 'navigation'));
+    }
+
     public function showEditSoal($id){
          // Ambil ujian berdasarkan ID
         $exam = Exams::findOrFail($id);
         $questions = Question::where('exam_id', $exam->id)->get();
         $soal = Question::where('exam_id', $exam->id)->first();
-
-        return view('dashboard.ujian.addSoal', compact('exam', 'questions', 'soal'));
+$navigation = Question::where('exam_id', $exam->id)->get();
+        return view('dashboard.ujian.addSoal', compact('exam', 'questions', 'soal', 'navigation'));
     }
     
     public function addSoal(Request $request, $id)
